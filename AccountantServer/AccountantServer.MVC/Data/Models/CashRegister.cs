@@ -1,0 +1,18 @@
+﻿using AccountantServer.MVC.Data.BaseModels;
+
+namespace AccountantServer.MVC.Data.Models
+{
+    public class CashRegister : BaseDeletableModel
+    {
+        public CashRegister()
+        {
+            Shifts = new List<Shift>();
+        }
+
+        public decimal Cash => Shifts.Where(x => !x.IsDeleted && x.CreatedOn == CreatedOn).Sum(x => x.Cash);
+        public decimal Pos => Shifts.Where(x => !x.IsDeleted && x.CreatedOn == CreatedOn).Sum(x => x.Pos);
+        public int CashPosId { get; set; }
+        public virtual CashPos? CashPos { get; set; }
+        public virtual ICollection<Shift> Shifts { get; set; }
+    }
+}
